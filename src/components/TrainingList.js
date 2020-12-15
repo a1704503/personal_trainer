@@ -17,9 +17,17 @@ function Traininglist() {
     }
 
     const dateFormatter = (params) =>{
-        console.log(params)
         const formatedDate = moment(params).format('llll')
         return(formatedDate)
+    }
+
+    const onFilterTextBoxChanged = (event) =>{
+        gridRef.current.setQuickFilter(event.target.value);
+    }
+
+    const onGridReady = (params) => {
+        gridRef.current = params.api
+        //console.log(gridRef.current)
     }
 
     const columns = [
@@ -33,30 +41,29 @@ function Traininglist() {
       },
       {headerName: "Duration (min)", field: "duration", sortable: true, filter: true},
       {headerName: "Activity",  field: "activity", sortable: true, filter: true},
-  ]
+    ]
 
-
-  useEffect(() => getTrainings(), [])
-  const gridRef = useRef()
+    useEffect(() => getTrainings(), [])
+    const gridRef = useRef()
+  
 
     return (
         <div>
-              <div className="ag-theme-material" style={ {height:'700px', width:'80%', margin:'auto'} }>
+              <div className="ag-theme-material" style={ {height:'700px', width:'85%', margin:'auto'} }>
+
+              <label>Quick search</label><br/>
+              <input onChange={onFilterTextBoxChanged}/>
+
               <AgGridReact 
                   ref={gridRef}
-
-                  onGridReady={ p => 
-                      {
-                          gridRef.current = p.api
-                      }
-                  }
-                  
+                  onGridReady={onGridReady}
                   suppressCellSelection={true}
                   columnDefs={columns} 
                   rowData={trainings}
                   pagination="true"
                   paginationPageSize="10"
               >
+            
               </AgGridReact>
               
             </div>

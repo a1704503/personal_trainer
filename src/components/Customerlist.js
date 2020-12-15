@@ -30,6 +30,15 @@ function Customerlist() {
         }
     }
 
+    const onGridReady = (params) => {
+        gridRef.current = params.api
+        //console.log(gridRef.current)
+    }
+
+    const onFilterTextBoxChanged = (event) =>{
+        gridRef.current.setQuickFilter(event.target.value)
+    }
+
     const columns = [
         {
             headerName: "",
@@ -49,19 +58,18 @@ function Customerlist() {
     useEffect(() => getCustomers(), [])
     const gridRef = useRef()
 
+
     return (
         <div>
             <div className="ag-theme-material" style={ {height:'700px', width:'85%', margin:'auto'} }>
 
+            <label>Quick search</label><br/>
+            <input onChange={onFilterTextBoxChanged}/>
+
                 <AgGridReact 
                     ref={gridRef}
 
-                    onGridReady={ p => 
-                        {
-                            gridRef.current = p.api
-                        }
-                    }
-                    
+                    onGridReady={onGridReady}
                     suppressCellSelection={true}
                     columnDefs={columns} 
                     rowData={customers}
@@ -73,6 +81,14 @@ function Customerlist() {
             <button onClick={resetDB}>Reset DB</button>
         </div>
     )
+
+    // const getSelectedRowData = () => {
+    //     let selectedNodes = gridRef.current.getSelectedNodes()
+    //     let selectedData = selectedNodes.map(node => node.data)
+    //     alert(`Selected Nodes:\n${JSON.stringify(selectedData)}`)
+    //     <button onClick={getSelectedRowData} style={{margin: 10}}> Get Selected Nodes</button>
+    //     return selectedData
+    //   }
 }
 
 export default Customerlist
