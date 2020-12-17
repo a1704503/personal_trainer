@@ -37,18 +37,6 @@ function AddTraining(props){
         handleClose()
     }
 
-                        // {/* <TextField
-                        //     autoFocus
-                        //     margin="dense"
-                        //     name="date"
-                        //     value={training.date}
-                        //     onChange={handleInput}
-                        //     label=""
-                        //     type="date"
-                        //     fullWidth
-                        // /> */}
-
-
     return(
         <div>
 
@@ -68,9 +56,11 @@ function AddTraining(props){
                             name="date"
                             type="datetime-local"
                             onChange={handleInput}
-                            InputLabelProps={{
+                            InputLabelProps={
+                            {
                             shrink: true,
-                            }}
+                            }
+                        }
                         />
                         <TextField
                             autoFocus
